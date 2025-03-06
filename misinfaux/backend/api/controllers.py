@@ -521,3 +521,16 @@ def run_internal_bootstrapping(text, n_samples=400):  # Reduced default from 100
         'overused_words_mean': np.mean(overused_word_counts),
         'overused_words_std_err': np.std(overused_word_counts, ddof=1) / np.sqrt(n_samples),
     }
+
+
+def analyze_text_handler(request):
+    """Handler for the analyze text API endpoint"""
+    return analyze_text()
+
+def bootstrap_simulation_handler(request):
+    """Handler for the bootstrap simulation API endpoint"""
+    return bootstrap_simulation()
+
+def analyze_url_handler(request):
+    """Handler for the analyze URL API endpoint"""
+    return analyze_url()

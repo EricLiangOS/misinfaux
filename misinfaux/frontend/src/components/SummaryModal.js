@@ -40,7 +40,6 @@ const SummaryModal = ({ isOpen, onClose, results }) => {
     
     // Determine classification: reliable when z >= 0 (probability >= 50%)
     const isReliable = logitScore >= 0;
-    const classification = isReliable ? "Likely Reliable" : "Potentially Misleading";
 
     
     return (

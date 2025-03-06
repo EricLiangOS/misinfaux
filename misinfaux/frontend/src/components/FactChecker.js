@@ -8,33 +8,26 @@ const FactChecker = ({ setResults, setIsLoading }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         
         if (!inputValue.trim()) {
-            setError('Please enter a URL or text to analyze');
+            setError('Please enter text or URL to analyze');
             return;
         }
-    
-        console.log(`Submitting ${inputType} for analysis`);
+        
         setIsLoading(true);
+        setError(null);
         
         try {
-            const endpoint = inputType === 'url' ? '/api/analyze/url' : '/api/analyze/text';
-            const payload = inputType === 'url' ? { url: inputValue } : { text: inputValue };
+            let payload;
             
-            console.log(`Making request to ${endpoint} with payload:`, payload);
+            if (inputType === 'url') {
+                payload = { url: inputValue };
+            } else {
+                payload = { text: inputValue };
+            }
             
-            // Configure headers explicitly
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            };
-            
-            // Use absolute URL with explicit port
-            const baseUrl = 'http://localhost:5000';
-            const response = await axios.post(`${baseUrl}${endpoint}`, payload, config);
+            // Use relative URL for API requests (works in both dev and production)
+            const response = await axios.post('/api/analyze', payload);
             
             console.log("Response received:", response.data);
             setResults(response.data);
@@ -46,7 +39,7 @@ const FactChecker = ({ setResults, setIsLoading }) => {
                 setError(`Failed to analyze content: ${err.response.data.error || 'Unknown error'}`);
             } else if (err.request) {
                 console.error('No response received from server');
-                setError('Failed to connect to the server. Is the backend running?');
+                setError('Failed to connect to the server. Please try again later.');
             } else {
                 console.error('Error message:', err.message);
                 setError('Failed to analyze content. Please try again.');

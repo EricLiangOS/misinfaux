@@ -23,7 +23,6 @@ const TextDisplay = ({ text, problematicElements }) => {
         });
         
         // Process text to add highlight spans
-        let processedText = text;
         let currentAnnotations = [];
         let annotationId = 0;
         
@@ -40,7 +39,6 @@ const TextDisplay = ({ text, problematicElements }) => {
             if (match) {
                 const id = `annotation-${annotationId++}`;
                 const start = match.index;
-                const end = start + word.length;
                 
                 currentAnnotations.push({
                     id,
